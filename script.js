@@ -50,30 +50,29 @@ translate(text, opcion);
 */
 
 //EJERCICIO Nº4
+
 /*
-let suma;
-let resta;
-let multiplicar;
-let dividir;
+let resultado;
 let nu1 = parseFloat(prompt("ingresa un numero"));
 let nu2 = parseFloat(prompt("ingresa un numero"));
 let opcion = parseInt(prompt("ingresa opcion\n1-Suma\n2-resta\n3-Multiplicar\n4-dividir"));
 
 function calculadora(nu1, nu2, opcion) {
+
     if (opcion === 1) {
-        suma = nu1 + nu2;
+        resultado = nu1 + nu2;
         return "la suma es : " + suma;
     } else if (opcion === 2) {
-        resta = nu1 - nu2;
+        resultado = nu1 - nu2;
         return "la rresta es : " + resta;
     } else if (opcion === 3) {
-        multiplicar = nu2 * nu1;
+        resultado = nu2 * nu1;
         return "la multiplicacion es : " + multiplicar;
     } else if (opcion === 4) {
         if (nu2 === 0) {
             return "No se puede dividir por cero";
         } else {
-            dividir = nu1 / nu2;
+            resultado = nu1 / nu2;
             return "La dividision es : " + dividir;
         }
     }
@@ -82,8 +81,8 @@ function calculadora(nu1, nu2, opcion) {
 
 
 }
-console.log(calculadora(nu1, nu2, opcion));*/
-
+console.log(calculadora(nu1, nu2, opcion));
+*/
 
 //EJERCICIO Nº5  FUNCION CONFIRM ventana de dialogo booleano ok or cancelar
 /*
@@ -191,8 +190,7 @@ for (let i = 0; i < mascotas.length; i++) {
 //EJERCICIO Nº9
 /*
 let restaurant = [25, 17, 18, 44, 12, 9, 36, 50];
-//let restaurant = [20, 30, 50, 45, 37, 27];
-//let restaurant = [12, 8, 9, 11];
+
 let total = 0;
 let menor = 0;
 let desc = 0;
@@ -261,20 +259,43 @@ console.log(sumaPorEdad(menor, adulto));
 
 //EJERCICIO Nº10
 
-let pacientes = [];
+
 let paVip = [];
-let paciente;
-let valoracion;
+let todosLosPacientes = [];
 
 function ingresoPacientes() {
 
+    let pacientes = [];
+    let paciente;
+    let valoracion;
     do {
-        paciente = parseInt(prompt("Ingresar codigo de paciente entre 0 y 999"));
+
+
+        paciente = parseInt(prompt("Ingresar codigo de paciente entre 1 y 999"));
+        for (let i = 0; i < pacientes.length; i++) {
+
+
+            if (("00" + paciente) === pacientes[i] || ("0" + paciente) === pacientes[i] || paciente === pacientes[i]) {
+
+                alert("No puedes duplicar turnos");
+
+                paciente = 1000;
+
+            }
+        }
+
+
         while (paciente < 0 && paciente === 0 && paciente > 999) {
-            paciente = parseInt(prompt("Ingresar codigo de paciente entre 0 y 999"));
+            paciente = parseInt(prompt("Ingresar codigo de paciente entre 1 y 999"));
+
 
         }
+
+
+
+
         if (paciente > 0 && paciente < 10) {
+
             pacientes.push("00" + paciente);
 
             valoracion = parseInt(prompt("Como califica el servicio?\nde 1 a 10"));
@@ -293,19 +314,29 @@ function ingresoPacientes() {
             paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion);
         } else if (paciente > 99 && paciente < 1000) {
             pacientes.push(paciente);
+            todosLosPacientes = pacientes;
+
         } else if (paciente === 0) {
-            alert("No se puede ingresar cero")
+            alert("No se puede ingresar cero");
         }
 
         paciente = confirm("quieres continuar");
     } while (paciente);
-
+    pacientes.sort();
     for (let i = 0; i < pacientes.length; i++) {
         //console.log(pacientes[i]);
+
         if (pacientes[i] > 0 && pacientes[i] < 100) {
+
+
+
             document.write('<div style="margin:auto;padding:10px"><h3 style="margin:15px">Paciente vip</h3></div>');
             document.write('<div style="font-size:20px;width:25%;height:100px;background:red;color:white;text-align:center;margin:10px 10px"><p>paciente Nº</p>' + pacientes[i] + '</div>');
             document.write('<br><br><hr>');
+
+
+
+
 
 
         } else if (pacientes[i] > 99 && pacientes[i] < 501) {
@@ -313,16 +344,19 @@ function ingresoPacientes() {
             document.write('<div style="font-size:20px;width:25%;height:100px;background:lightSeagreen;color:darkblue;text-align:center;margin:10px 10px;"><p>paciente Nº</p>' + pacientes[i] + '</div>');
             document.write('<br><br><hr>');
         } else {
-            console.log("Paciente de atencion Normal Nº" + pacientes[i]);
+            document.write('<h3 style="margin:15px">Paciente de Atencion Normal</h3>');
+            document.write('<div style="font-size:20px;width:25%;height:100px;background:cyan;color:smoke;text-align:center;margin:10px 10px;"><p>paciente Nº</p>' + pacientes[i] + '</div>');
+            document.write('<br><br><hr>');
+            // document.write("Paciente de atencion Normal Nº" + pacientes[i]);
         }
 
     }
 
-    return document.write('<div style="width:25%;height:100px;background:grey;color:white;text-align:center"><strong><p>cantidad de pacientes:</strong><br>(fijarse en consola tambien)<br> </p>' + pacientes.length + '</div>');
+    return document.write('<div style="width:25%;height:100px;background:grey;color:white;text-align:center"><strong><p>cantidad de pacientes:</strong><br> </p>' + pacientes.length + '</div>');
 }
 ingresoPacientes();
 
-
+paVip.sort();
 for (let i = 0; i < paVip.length; i++) {
     document.write('<br><br><div style="text-align:center;padding:20px;border-radius:8px;border:2px solid black;height:40px;width:65%;background:crimson;color:#ccc;font-size:20px"><p><strong>' + paVip[i] + '</strong></p><input type="submit"name="Borrar"></div><br>');
 }
