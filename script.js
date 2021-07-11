@@ -266,16 +266,22 @@ let todosLosPacientes = [];
 function ingresoPacientes() {
 
     let pacientes = [];
+    let pa;
     let paciente;
+    let total=0;
+    let promedio;
+    let valoraciones=[];
     let valoracion;
+    let opcion;
+    
     do {
-
-
+        
+        
         paciente = parseInt(prompt("Ingresar codigo de paciente entre 1 y 999"));
         for (let i = 0; i < pacientes.length; i++) {
 
 
-            if (("00" + paciente) === pacientes[i] || ("0" + paciente) === pacientes[i] || paciente === pacientes[i]) {
+            if (("00" + paciente+"\n") === pacientes[i] || ("0" + paciente+"\n") === pacientes[i] || (paciente+"\n") === pacientes[i]) {
 
                 alert("No puedes duplicar turnos");
 
@@ -296,31 +302,102 @@ function ingresoPacientes() {
 
         if (paciente > 0 && paciente < 10) {
 
-            pacientes.push("00" + paciente);
+            pacientes.push("00" + paciente+"\n");
 
-            valoracion = parseInt(prompt("Como califica el servicio?\nde 1 a 10"));
+            valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
             while (valoracion < 1 || valoracion > 10 || isNaN(valoracion)) {
-                valoracion = parseInt(prompt("Como califica el servicio?\nde 1 a 10"));
+                valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
             }
-
-            paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion);
+            valoraciones.push(valoracion);
+            total=total+valoracion;
+            paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion+"\n");
         } else if (paciente > 9 && paciente < 100) {
-            pacientes.push("0" + paciente);
+            pacientes.push("0" + paciente+"\n");
 
-            valoracion = parseInt(prompt("Como califica el servicio?\nde 1 a 10"));
+            valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
             while (valoracion < 1 || valoracion > 10 || isNaN(valoracion)) {
-                valoracion = parseInt(prompt("Como califica el servicio?\nde 1 a 10"));
+                valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
             }
-            paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion);
-        } else if (paciente > 99 && paciente < 1000) {
-            pacientes.push(paciente);
-            todosLosPacientes = pacientes;
-
+            valoraciones.push(valoracion);
+            total=total+valoracion;
+            paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion+"\n");
         } else if (paciente === 0) {
             alert("No se puede ingresar cero");
-        }
+        }else if(paciente>100&&paciente<501){
+            pacientes.push(paciente+"\n");
+            todosLosPacientes = pacientes;
 
+        }else if(paciente>500&&paciente<1000){ 
+            pacientes.sort();
+            opcion = confirm("Desea pasarse a vip?");
+            if(opcion===true){
+              do{  
+                  
+                  alert("LISTA Paciente: \n"+pacientes+"\n");
+                  paciente=0;
+                  paciente=Math.floor(Math.random()*99+1);
+                  for(let i =0;i<pacientes.length;i++){
+                      if(("00"+paciente+"\n")===pacientes[i]||("0"+paciente+"\n")===pacientes[i]){
+                        paciente=1000;
+                        opcion=confirm("Parece que no hay mas turnos vip continuas?");
+                        if(opcion===false){
+                            paciente=1001;
+                        }
+                        
+                       }
+                    }
+                
+                        
+           
+                     
+               }while(paciente===1000);  
+             
+                
+          
+          
+        
+           if(paciente>0&&paciente<10){
+            pacientes.push("00"+paciente+"\n");
+            valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
+            while (valoracion < 1 || valoracion > 10 || isNaN(valoracion)) {
+                valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
+            }
+              valoraciones.push(valoracion);
+              total=total+valoracion;
+              paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion+"\n");
+              
+           }else if(paciente>9&&paciente<100){
+              
+              pacientes.push("0"+paciente+"\n");
+              valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
+              while (valoracion < 1 || valoracion > 10 || isNaN(valoracion)) {
+                  valoracion = parseFloat(prompt("Como califica el servicio?\nde 1 a 10"));
+              }
+              valoraciones.push(valoracion);
+              total=total+valoracion;
+              paVip.push("El paciente vip con turno: " + paciente + " califico el servicio con un: " + valoracion+"\n");
+           }
+              
+            
+           if(paciente!==1000){
+            alert("paciente se paso a categoria vip con el turno Nº"+paciente);
+           }else if(paciente===1000){
+              // alert("Vuelve a cargar no se puede repetir turnos");
+               opcion=true;
+               paciente=Math.floor(Math.random()*10+1); 
+           }
+        
+        }else if(opcion===false) {
+            pacientes.push(paciente+"\n");
+            todosLosPacientes = pacientes;
+        }
+    
+        
+    }
+   
+    
         paciente = confirm("quieres continuar");
+      
     } while (paciente);
     pacientes.sort();
     for (let i = 0; i < pacientes.length; i++) {
@@ -343,20 +420,28 @@ function ingresoPacientes() {
             document.write('<h3 style="margin:15px">Paciente de Prepaga</h3>');
             document.write('<div style="font-size:20px;width:25%;height:100px;background:lightSeagreen;color:darkblue;text-align:center;margin:10px 10px;"><p>paciente Nº</p>' + pacientes[i] + '</div>');
             document.write('<br><br><hr>');
-        } else {
-            document.write('<h3 style="margin:15px">Paciente de Atencion Normal</h3>');
+        } 
+          else{
+            document.write('<h3 style="margin:15px">Paciente de atenciones básicas</h3>');
             document.write('<div style="font-size:20px;width:25%;height:100px;background:cyan;color:smoke;text-align:center;margin:10px 10px;"><p>paciente Nº</p>' + pacientes[i] + '</div>');
             document.write('<br><br><hr>');
             // document.write("Paciente de atencion Normal Nº" + pacientes[i]);
+           
         }
 
     }
-
-    return document.write('<div style="width:25%;height:100px;background:grey;color:white;text-align:center"><strong><p>cantidad de pacientes:</strong><br> </p>' + pacientes.length + '</div>');
+    promedio=total/valoraciones.length;
+    console.log(promedio.toFixed(5));
+    
+    return document.write('<div style="width:25%;height:160px;background:grey;color:white;text-align:center"><strong><p>cantidad de pacientes:</strong><br> </p>' + pacientes.length +'<br><br><p>El promedio de valoracion del servicio por los pacientes VIP:</p>' +promedio.toFixed(1)+'</div>');
 }
-ingresoPacientes();
+ingresoPacientes();//Entendi el concepto de desglosar en pequeñas funciones e invocarlas desde una funcion principal...en este ejercicio no se aplico ese concepto claramente
+
 
 paVip.sort();
 for (let i = 0; i < paVip.length; i++) {
     document.write('<br><br><div style="text-align:center;padding:20px;border-radius:8px;border:2px solid black;height:40px;width:65%;background:crimson;color:#ccc;font-size:20px"><p><strong>' + paVip[i] + '</strong></p><input type="submit"name="Borrar"></div><br>');
 }
+
+
+
